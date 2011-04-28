@@ -191,13 +191,13 @@ Supported options:
 
 - =-nm= or =--no-mangle= --- don't mangle variable names
 
-- =-ns= or =--no-squeeze= --- don't call =ast_squeeze()= (which does various
+- =-ns= or =--no-squeeze= --- don't call =astSqueeze()= (which does various
   optimizations that result in smaller, less readable code).
 
 - =-mt= or =--mangle-toplevel= --- mangle names in the toplevel scope too
   (by default we don't do this).
 
-- =--no-seqs= --- when =ast_squeeze()= is called (thus, unless you pass
+- =--no-seqs= --- when =astSqueeze()= is called (thus, unless you pass
   =--no-squeeze=) it will reduce consecutive statements in blocks into a
   sequence.  For example, "a = 10; b = 20; foo();" will be written as
   "a=10,b=20,foo();".  In various occasions, this allows us to discard the
@@ -258,16 +258,16 @@ var pro = require("uglify-js").uglify;
 
 var orig_code = "... JS code here";
 var ast = jsp.parse(orig_code); // parse code and get the initial AST
-ast = pro.ast_mangle(ast); // get a new AST with mangled names
-ast = pro.ast_squeeze(ast); // get an AST with compression optimizations
-var final_code = pro.gen_code(ast); // compressed code here
+ast = pro.astMangle(ast); // get a new AST with mangled names
+ast = pro.astSqueeze(ast); // get an AST with compression optimizations
+var final_code = pro.genCode(ast); // compressed code here
 #+END_SRC
 
 The above performs the full compression that is possible right now.  As you
 can see, there are a sequence of steps which you can apply.  For example if
 you want compressed output but for some reason you don't want to mangle
 variable names, you would simply skip the line that calls
-=pro.ast_mangle(ast)=.
+=pro.astMangle(ast)=.
 
 Some of these functions take optional arguments.  Here's a description:
 
@@ -277,15 +277,15 @@ Some of these functions take optional arguments.  Here's a description:
   it doesn't find it.  For most JS code you don't want that, but it's useful
   if you want to strictly sanitize your code.
 
-- =pro.ast_mangle(ast, options)= -- generates a new AST containing mangled
+- =pro.astMangle(ast, options)= -- generates a new AST containing mangled
   (compressed) variable and function names.  It supports the following
   options:
 
   - =toplevel= -- mangle toplevel names (by default we don't touch them).
   - =except= -- an array of names to exclude from compression.
 
-- =pro.ast_squeeze(ast, options)= -- employs further optimizations designed
-  to reduce the size of the code that =gen_code= would generate from the
+- =pro.astSqueeze(ast, options)= -- employs further optimizations designed
+  to reduce the size of the code that =genCode= would generate from the
   AST.  Returns a new AST.  =options= can be a hash; the supported options
   are:
 
@@ -294,7 +294,7 @@ Some of these functions take optional arguments.  Here's a description:
 
   - =dead_code= (default true) which will remove unreachable code.
 
-- =pro.gen_code(ast, options)= -- generates JS code from the AST.  By
+- =pro.genCode(ast, options)= -- generates JS code from the AST.  By
   default it's minified, but using the =options= argument you can get nicely
   formatted output.  =options= is, well, optional :-) and if you pass it it
   must be an object and supports the following properties (below you can see

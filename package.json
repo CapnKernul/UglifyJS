@@ -1,22 +1,22 @@
 {
-        "name"    : "uglify-js",
-
-        "author"  : {
-                "name"  : "Mihai Bazon",
-                "email" : "mihai.bazon@gmail.com",
-                "url"   : "http://mihai.bazon.net/blog"
-        },
-
-        "version" : "1.0.1",
-
-        "main"    : "./uglify-js.js",
-
-        "bin"     : {
-                "uglifyjs" : "./bin/uglifyjs"
-        },
-
-        "repository": {
-                "type": "git",
-                "url": "git@github.com:mishoo/UglifyJS.git"
-        }
+  "name": "uglify-js",
+  "author": {
+    "name": "Mihai Bazon",
+    "email": "mihai.bazon@gmail.com",
+    "url": "http://mihai.bazon.net/blog"
+  },
+  "contributors": [
+    "Alexander Kern <alex@kernul.com> (http://kernul.com)"
+  ],
+  "version": "1.0.1",
+  "main": "lib/uglify-js.js",
+  "directories": {
+    "lib": "./lib",
+    "bin": "./bin"
+  },
+  "bin": "./bin/uglifyjs",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:mishoo/UglifyJS.git"
+  }
 }

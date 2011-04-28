@@ -409,7 +409,7 @@ but if you pass this option you'll only get ASCII).
 
 </li>
 <li>
-<code>-ns</code> or <code>--no-squeeze</code> &mdash; don't call <code>ast_squeeze()</code> (which does various
+<code>-ns</code> or <code>--no-squeeze</code> &mdash; don't call <code>astSqueeze()</code> (which does various
 optimizations that result in smaller, less readable code).
 
 </li>
@@ -419,7 +419,7 @@ optimizations that result in smaller, less readable code).
 
 </li>
 <li>
-<code>--no-seqs</code> &mdash; when <code>ast_squeeze()</code> is called (thus, unless you pass
+<code>--no-seqs</code> &mdash; when <code>astSqueeze()</code> is called (thus, unless you pass
 <code>--no-squeeze</code>) it will reduce consecutive statements in blocks into a
 sequence.  For example, "a = 10; b = 20; foo();" will be written as
 "a=10,b=20,foo();".  In various occasions, this allows us to discard the
@@ -516,9 +516,9 @@ NodeJS):
 
 <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">orig_code</span> = <span style="color: #bc8f8f;">"... JS code here"</span>;
 <span style="color: #a020f0;">var</span> <span style="color: #b8860b;">ast</span> = jsp.parse(orig_code); <span style="color: #b22222;">// </span><span style="color: #b22222;">parse code and get the initial AST
-</span>ast = pro.ast_mangle(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">get a new AST with mangled names
-</span>ast = pro.ast_squeeze(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">get an AST with compression optimizations
-</span><span style="color: #a020f0;">var</span> <span style="color: #b8860b;">final_code</span> = pro.gen_code(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">compressed code here
+</span>ast = pro.astMangle(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">get a new AST with mangled names
+</span>ast = pro.astSqueeze(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">get an AST with compression optimizations
+</span><span style="color: #a020f0;">var</span> <span style="color: #b8860b;">final_code</span> = pro.genCode(ast); <span style="color: #b22222;">// </span><span style="color: #b22222;">compressed code here
 </span></pre>
 
 
@@ -528,7 +528,7 @@ The above performs the full compression that is possible right now.  As you
 can see, there are a sequence of steps which you can apply.  For example if
 you want compressed output but for some reason you don't want to mangle
 variable names, you would simply skip the line that calls
-<code>pro.ast_mangle(ast)</code>.
+<code>pro.astMangle(ast)</code>.
 </p>
 <p>
 Some of these functions take optional arguments.  Here's a description:
@@ -543,7 +543,7 @@ if you want to strictly sanitize your code.
 
 </li>
 <li>
-<code>pro.ast_mangle(ast, options)</code> &ndash; generates a new AST containing mangled
+<code>pro.astMangle(ast, options)</code> &ndash; generates a new AST containing mangled
 (compressed) variable and function names.  It supports the following
 options:
 
@@ -558,8 +558,8 @@ options:
 </ul>
 </li>
 <li>
-<code>pro.ast_squeeze(ast, options)</code> &ndash; employs further optimizations designed
-to reduce the size of the code that <code>gen_code</code> would generate from the
+<code>pro.astSqueeze(ast, options)</code> &ndash; employs further optimizations designed
+to reduce the size of the code that <code>genCode</code> would generate from the
 AST.  Returns a new AST.  <code>options</code> can be a hash; the supported options
 are:
 
@@ -576,7 +576,7 @@ block to be merged using the "sequence" (comma) operator
 </ul>
 </li>
 <li>
-<code>pro.gen_code(ast, options)</code> &ndash; generates JS code from the AST.  By
+<code>pro.genCode(ast, options)</code> &ndash; generates JS code from the AST.  By
 default it's minified, but using the <code>options</code> argument you can get nicely
 formatted output.  <code>options</code> is, well, optional :-) and if you pass it it
 must be an object and supports the following properties (below you can see

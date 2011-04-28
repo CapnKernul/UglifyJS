@@ -53,7 +53,7 @@ function instrument(code) {
         }, function(){
                 return w.walk(ast);
         });
-        return pro.gen_code(new_ast, { beautify: true });
+        return pro.genCode(new_ast, { beautify: true });
 }
 
 

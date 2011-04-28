@@ -10,9 +10,9 @@ var filename = process.argv[2];
 fs.readFile(filename, "utf8", function(err, text){
         try {
                 var ast = time_it("parse", function(){ return jsp.parse(text); });
-                ast = time_it("mangle", function(){ return pro.ast_mangle(ast); });
-                ast = time_it("squeeze", function(){ return pro.ast_squeeze(ast); });
-                var gen = time_it("generate", function(){ return pro.gen_code(ast, false); });
+                ast = time_it("mangle", function(){ return pro.astMangle(ast); });
+                ast = time_it("squeeze", function(){ return pro.astSqueeze(ast); });
+                var gen = time_it("generate", function(){ return pro.genCode(ast, false); });
                 sys.puts(gen);
         } catch(ex) {
                 sys.debug(ex.stack);

@@ -3,7 +3,7 @@
 
 global.sys = require(/^v0\.[012]/.test(process.version) ? "sys" : "util");
 var fs = require("fs");
-var uglify = require("uglify-js"), // symlink ~/.node_libraries/uglify-js.js to ../uglify-js.js
+var uglify = require("../lib/uglify-js"),
     jsp = uglify.parser,
     pro = uglify.uglify;
 
@@ -174,24 +174,24 @@ function squeeze_it(code) {
         try {
                 var ast = time_it("parse", function(){ return jsp.parse(code); });
                 if (options.mangle) ast = time_it("mangle", function(){
-                        return pro.ast_mangle(ast, {
+                        return pro.astMangle(ast, {
                                 toplevel: options.mangle_toplevel,
                                 except: options.reserved_names
                         });
                 });
                 if (options.squeeze) ast = time_it("squeeze", function(){
-                        ast = pro.ast_squeeze(ast, {
+                        ast = pro.astSqueeze(ast, {
                                 make_seqs  : options.make_seqs,
                                 dead_code  : options.dead_code,
                                 keep_comps : !options.unsafe
                         });
                         if (options.unsafe)
-                                ast = pro.ast_squeeze_more(ast);
+                                ast = pro.astSqueeze_more(ast);
                         return ast;
                 });
                 if (options.ast)
                         return sys.inspect(ast, null, null);
-                result += time_it("generate", function(){ return pro.gen_code(ast, options.codegen_options) });
+                result += time_it("generate", function(){ return pro.genCode(ast, options.codegen_options) });
                 if (!options.codegen_options.beautify && options.max_line_length) {
                         result = time_it("split", function(){ return pro.split_lines(result, options.max_line_length) });
                 }
